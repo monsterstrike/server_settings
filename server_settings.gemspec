@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'server-settings/version'
+require 'server_settings/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "server-settings"
+  spec.name          = "server_settings"
   spec.version       = ServerSettings::VERSION
   spec.authors       = ["Osamu MATSUMOTO"]
   spec.email         = ["osamu.matsumoto@gmail.com"]

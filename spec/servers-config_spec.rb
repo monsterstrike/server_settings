@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'server-settings'
+require 'server_settings'
 
 describe ServerSettings do
   let (:config1) {

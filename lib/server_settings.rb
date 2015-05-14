@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 require 'yaml'
-require "server-settings/version"
-require "server-settings/host"
-require "server-settings/host_collection"
-require "server-settings/role"
-require "server-settings/role_db"
+require "server_settings/version"
+require "server_settings/host"
+require "server_settings/host_collection"
+require "server_settings/role"
+require "server_settings/role_db"
 
 class ServerSettings
   attr_accessor :roles

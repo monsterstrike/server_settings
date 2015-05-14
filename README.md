@@ -8,7 +8,7 @@ ServerSettings is useful configuration scheme for any where.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'server-settings'
+gem 'server_settings'
 ```
 
 And then execute:
@@ -17,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install server-settings
+    $ gem install server_settings
 
 ## Usage
 
@@ -35,7 +35,7 @@ First of all, you must define servers and role in YAML
 Then, You put intto initilize code
 
 ```ruby
-require 'server-settings'
+require 'server_settings'
 
 ServerSettings.load_config("path/to/yaml")
 ```
@@ -44,7 +44,6 @@ If you have many roles and servers, you can split yaml file and put
 into directory.
 
 ```ruby
-require 'server-settings'
 
 ServerSettings.load_config_dir("path/to/yamls-dir/*.yml")
 ```
@@ -108,7 +107,7 @@ ActiveRecord::Base.configurations[:development]  = ServerSettings.database.confi
 
 ### For Capistrano
 ```ruby
-require  'server-settings/capistrano'
+require  'server_settings/capistrano'
 
 load_servers("config/production/server-settings.yaml")
 

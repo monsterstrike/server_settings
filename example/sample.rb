@@ -1,4 +1,4 @@
-require 'server-settings'
+require 'server_settings'
 require 'pp'
 
 yaml =<<EOF
