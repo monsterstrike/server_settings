@@ -32,7 +32,7 @@ First of all, you must define servers and role in YAML
     - host1
     - host2
 ```
-Then, You put intto initilize code
+Then, You can load yaml files.
 
 ```ruby
 require 'server_settings'
@@ -109,7 +109,7 @@ ActiveRecord::Base.configurations[:development]  = ServerSettings.database.confi
 ```ruby
 require  'server_settings/capistrano'
 
-load_servers("config/production/server-settings.yaml")
+load_servers("config/production/*.yaml")
 
 ```
 
