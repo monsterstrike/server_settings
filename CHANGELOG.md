@@ -6,6 +6,8 @@
 
 **Merged pull requests:**
 
+- Fix cap role definition for ServerSettings::HostCollection [\#8](https://github.com/monsterstrike/server_settings/pull/8) ([osamu](https://github.com/osamu))
+
 - Capistrano server loader task can load from directory pattern [\#7](https://github.com/monsterstrike/server_settings/pull/7) ([osamu](https://github.com/osamu))
 
 - Fix spec filename [\#6](https://github.com/monsterstrike/server_settings/pull/6) ([osamu](https://github.com/osamu))
