@@ -1,5 +1,15 @@
 # Change Log
 
+## [v0.0.3](https://github.com/monsterstrike/server_settings/tree/v0.0.3) (2015-05-19)
+
+[Full Changelog](https://github.com/monsterstrike/server_settings/compare/v0.0.2...v0.0.3)
+
+**Merged pull requests:**
+
+- Capistrano server loader task can load from directory pattern [\#7](https://github.com/monsterstrike/server_settings/pull/7) ([osamu](https://github.com/osamu))
+
+- Fix spec filename [\#6](https://github.com/monsterstrike/server_settings/pull/6) ([osamu](https://github.com/osamu))
+
 ## [v0.0.2](https://github.com/monsterstrike/server_settings/tree/v0.0.2) (2015-05-14)
 
 [Full Changelog](https://github.com/monsterstrike/server_settings/compare/v0.0.1...v0.0.2)
