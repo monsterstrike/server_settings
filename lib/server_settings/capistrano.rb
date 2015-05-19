@@ -5,8 +5,8 @@ module Capistrano
     def self.extend(configuration)
       configuration.load do
         Capistrano::Configuration.instance.load do
-          def load_servers(filename)
-            ServerSettings.load_config(filename)
+          def load_servers(pattern)
+            ServerSettings.load_config_dir(pattern)
             ServerSettings.each_role do |role, hosts|
               role role.to_sym, *hosts
             end
