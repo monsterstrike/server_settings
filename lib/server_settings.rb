@@ -7,7 +7,7 @@ require "server_settings/role"
 require "server_settings/role_db"
 
 class ServerSettings
-  attr_accessor :roles
+  attr_accessor :roles, :erb_binding
 
   def initialize
     @roles = {}
@@ -48,6 +48,11 @@ class ServerSettings
     end
 
     def load_from_yaml(yaml)
+      yaml = if erb_binding
+               ERB.new(yaml).result(erb_binding)
+             else
+               yaml
+             end
       config = YAML.load(yaml)
       config.each do |role, config|
         instance << role_klass(config).new(role, config)

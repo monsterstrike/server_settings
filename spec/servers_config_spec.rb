@@ -112,4 +112,17 @@ EOF
       expect(ServerSettings.role1.with_format("%host:%port")).to eq(["1.1.1.1:1000", "2.2.2.2:1000"])
     end
   end
+
+  describe "render erb yaml" do
+    it 'can render yaml file using erb' do
+      ip = "4.4.4.4"
+      ServerSettings.erb_binding = binding
+      ServerSettings.load_from_yaml(<<-EOF)
+role:
+  hosts:
+    - <%= ip %>
+EOF
+      expect(ServerSettings.role.hosts.first.host).to eq("4.4.4.4")
+    end
+  end
 end
