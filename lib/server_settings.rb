@@ -47,7 +47,7 @@ class ServerSettings
       end
     end
 
-    def load_from_yaml(yaml, erb_binding: {})
+    def load_from_yaml(yaml)
       config = YAML.load(yaml)
       config.each do |role, config|
         instance << role_klass(config).new(role, config)
