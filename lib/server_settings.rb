@@ -7,7 +7,7 @@ require "server_settings/role"
 require "server_settings/role_db"
 
 class ServerSettings
-  attr_accessor :roles, :erb_binding
+  attr_accessor :roles
 
   def initialize
     @roles = {}
@@ -37,7 +37,7 @@ class ServerSettings
 
     def load_config(file)
       @loaded_files ||= {}
-      load_from_yaml(IO.read(file))
+      load_from_yaml_erb(IO.read(file))
       @loaded_files[file] = File.mtime(file)
     end
 
@@ -47,16 +47,16 @@ class ServerSettings
       end
     end
 
-    def load_from_yaml(yaml)
-      yaml = if erb_binding
-               ERB.new(yaml).result(erb_binding)
-             else
-               yaml
-             end
+    def load_from_yaml(yaml, erb_binding: {})
       config = YAML.load(yaml)
       config.each do |role, config|
         instance << role_klass(config).new(role, config)
       end
+    end
+
+    def load_from_yaml_erb(yaml, erb_binding: binding)
+      yaml =  ERB.new(yaml).result(erb_binding)
+      load_from_yaml(yaml)
     end
 
     def reload
