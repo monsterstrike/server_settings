@@ -116,8 +116,7 @@ EOF
   describe "render erb yaml" do
     it 'can render yaml file using erb' do
       ip = "4.4.4.4"
-      ServerSettings.erb_binding = binding
-      ServerSettings.load_from_yaml(<<-EOF)
+      ServerSettings.load_from_yaml_erb(<<-EOF, erb_binding: binding)
 role:
   hosts:
     - <%= ip %>
