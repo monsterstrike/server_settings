@@ -1,5 +1,17 @@
 # Change Log
 
+## [v0.0.4](https://github.com/monsterstrike/server_settings/tree/v0.0.4) (2015-05-25)
+
+[Full Changelog](https://github.com/monsterstrike/server_settings/compare/v0.0.3...v0.0.4)
+
+**Closed issues:**
+
+- Rendering YAML using ERB [\#9](https://github.com/monsterstrike/server_settings/issues/9)
+
+**Merged pull requests:**
+
+- Add yaml erb rendering [\#10](https://github.com/monsterstrike/server_settings/pull/10) ([osamu](https://github.com/osamu))
+
 ## [v0.0.3](https://github.com/monsterstrike/server_settings/tree/v0.0.3) (2015-05-19)
 
 [Full Changelog](https://github.com/monsterstrike/server_settings/compare/v0.0.2...v0.0.3)
