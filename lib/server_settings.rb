@@ -37,7 +37,7 @@ class ServerSettings
 
     def load_config(file)
       @loaded_files ||= {}
-      load_from_yaml(IO.read(file))
+      load_from_yaml_erb(IO.read(file))
       @loaded_files[file] = File.mtime(file)
     end
 
@@ -52,6 +52,11 @@ class ServerSettings
       config.each do |role, config|
         instance << role_klass(config).new(role, config)
       end
+    end
+
+    def load_from_yaml_erb(yaml, erb_binding: binding)
+      yaml =  ERB.new(yaml).result(erb_binding)
+      load_from_yaml(yaml)
     end
 
     def reload

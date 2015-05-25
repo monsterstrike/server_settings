@@ -40,6 +40,7 @@ require 'server_settings'
 ServerSettings.load_config("path/to/yaml")
 ```
 
+#### Load from directory
 If you have many roles and servers, you can split yaml file and put
 into directory.
 
@@ -48,6 +49,12 @@ into directory.
 ServerSettings.load_config_dir("path/to/yamls-dir/*.yml")
 ```
 
+### Render YAML with ERB
+When your server configuration has dynamic parameter, you can use ERB
+syntax in yaml.
+
+`load_config_dir()` will rendering  ERB template every time.
+Or  `load_from_yaml_erb()` also rendering ERB for yaml content
 
 ### For Dalli
 
