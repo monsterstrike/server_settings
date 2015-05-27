@@ -9,11 +9,15 @@ require "server_settings/role_db"
 class ServerSettings
   attr_accessor :roles
 
+  ## Exceptions
+  class DuplicateRole < StandardError; end
+
   def initialize
     @roles = {}
   end
 
   def << (role)
+    raise DuplicateRole, "`#{role.name}' already defined" if @roles.has_key?(role.name)
     @roles[role.name] = role
   end
 
