@@ -1,5 +1,13 @@
 # Change Log
 
+## [v0.0.5](https://github.com/monsterstrike/server_settings/tree/v0.0.5) (2015-06-03)
+
+[Full Changelog](https://github.com/monsterstrike/server_settings/compare/v0.0.4...v0.0.5)
+
+**Merged pull requests:**
+
+- Add hosts exception [\#15](https://github.com/monsterstrike/server_settings/pull/15) ([osamu](https://github.com/osamu))
+
 ## [v0.0.4](https://github.com/monsterstrike/server_settings/tree/v0.0.4) (2015-05-25)
 
 [Full Changelog](https://github.com/monsterstrike/server_settings/compare/v0.0.3...v0.0.4)
