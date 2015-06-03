@@ -46,7 +46,11 @@ EOF
       expect(ServerSettings.role2.hosts.with_format("%host")).to eq(["4.4.4.4"])
     end
 
-    ## TODO check invalid yaml
+    it 'raise error not array hosts' do
+      expect do
+        ServerSettings.load_from_yaml("role: { hosts: 1.1.1.1 }")
+      end.to raise_exception(ServerSettings::HostCollection::InvalidHosts)
+    end
 
     after do
       ServerSettings.destroy

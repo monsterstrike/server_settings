@@ -3,6 +3,10 @@ class ServerSettings
   class HostCollection < Array
     def initialize(hosts, role_config)
       @role_config = role_config
+      unless hosts.kind_of?(Array)
+        raise InvalidHosts, "hosts: #{hosts} is not array"
+      end
+
       hosts.each do |host_exp|
         self.push Host.parse(host_exp)
       end
@@ -18,6 +22,10 @@ class ServerSettings
         end
       end
     end
+
+    # Errors
+    class InvalidHosts < StandardError ; end
+
   end
 
 end
