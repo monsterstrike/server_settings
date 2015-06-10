@@ -109,12 +109,29 @@ databases:
       :master: 192.168.30.86
       :backup: 192.168.30.85
 ```
-
+#### Access DB configuration
 ```ruby
 ServerSettings.load_config("config/production/server-config.yaml")
 
 ServerSettings.database.find("db1").config(:master)
 # => {:adapter=>"mysql2", :encoding=>"utf8", :reconnect=>true, :database=>"app_db1", :pool=>10, :username=>"db_user1", :password=>"db_pass1", :host=>"192.168.30.86"}
+ServerSettings.database.find("db1").config(:backup)
+# => {:adapter=>"mysql2", :encoding=>"utf8", :reconnect=>true, :database=>"app_db1", :pool=>10, :username=>"db_user1", :password=>"db_pass1", :host=>"192.168.30.85"}
+ServerSettings.database.find("db1").config(:slaves)
+# =>[ {:adapter=>"mysql2", :encoding=>"utf8", :reconnect=>true, :database=>"app_db1", :pool=>10, :username=>"db_user1", :password=>"db_pass1", :host=>"192.168.30.87"},
+# {:adapter=>"mysql2", :encoding=>"utf8", :reconnect=>true, :database=>"app_db1", :pool=>10, :username=>"db_user1", :password=>"db_pass1", :host=>"192.168.30.88"}]
+```
+#### Iterator for all db config
+```ruby
+ServerSettings.load_config("config/production/server-config.yaml")
+
+ServerSettings.database.each do |db|
+  db.master      # => 192.168.30.86
+  db.backup      # => 192.168.30.85
+  db.slaves      # => [ 192.168.30.87, 192.168.30.88 ]
+  db.has_slave?  # => true
+  db.settings    # => {:adapter=>"mysql2", :encoding=>"utf8", :reconnect=>true, :database=>"app_db1", :pool=>10, :username=>"db_user1", :password=>"db_pass1"}
+end
 ```
 
 ### For Capistrano
