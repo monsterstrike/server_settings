@@ -164,12 +164,82 @@ databases:
       :master: 192.168.30.86
       :backup: 192.168.30.85
 EOS
+
     describe ServerSettings::Database do
+
       context "db in group" do
-        it 'return db instance ' do
+        it 'describe database with group' do
           ServerSettings.load_from_yaml(db_config)
+          db = ServerSettings.databases.find("user_shard_1")
+          expect(db.group).to eq("shards")
+          expect(db.config(:master)).to eq({
+                                             :adapter => "mysql2",
+                                             :database => "app_user_shard1",
+                                             :encoding => "utf8",
+                                             :host => "192.168.30.86",
+                                             :password => "db_pass1",
+                                             :pool => 10,
+                                             :reconnect => true,
+                                             :username => "db_user1"})
+          expect(db.config(:backup)).to eq({
+                                             :adapter => "mysql2",
+                                             :database => "app_user_shard1",
+                                             :encoding => "utf8",
+                                             :host => "192.168.30.85",
+                                             :password => "db_pass1",
+                                             :pool => 10,
+                                             :reconnect => true,
+                                             :username => "db_user1"})
+          expect(db.has_slave?).to be_falsey
+
         end
       end
+
+      context "db not in group" do
+        it 'describe database instance without group' do
+          ServerSettings.load_from_yaml(db_config)
+          db = ServerSettings.databases.find("db1")
+          expect(db.group).to be_nil
+          expect(db.config(:master)).to eq({
+                                             :adapter => "mysql2",
+                                             :database => "app_db1",
+                                             :encoding => "utf8",
+                                             :host => "192.168.30.86",
+                                             :password => "db_pass1",
+                                             :pool => 10,
+                                             :reconnect => true,
+                                             :username => "db_user1"})
+          expect(db.config(:backup)).to eq({
+                                             :adapter => "mysql2",
+                                             :database => "app_db1",
+                                             :encoding => "utf8",
+                                             :host => "192.168.30.85",
+                                             :password => "db_pass1",
+                                             :pool => 10,
+                                             :reconnect => true,
+                                             :username => "db_user1"})
+          expect(db.has_slave?).to be_falsey
+        end
+      end
+
+      context 'db has slaves' do
+        it 'has slaves and return slave configurations' do
+          ServerSettings.load_from_yaml(db_config)
+          db = ServerSettings.databases.find("db2")
+          expect(db.has_slave?).to be_truthy
+          expect(db.config(:slaves)[0]).to eq({
+                                             :adapter => "mysql2",
+                                             :database => "app_db2",
+                                             :encoding => "utf8",
+                                             :host => "192.168.30.87",
+                                             :password => "db_pass1",
+                                             :pool => 10,
+                                             :reconnect => true,
+                                             :username => "db_user1"})
+
+        end
+      end
+
     end
 
     describe "find" do
