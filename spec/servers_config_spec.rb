@@ -128,4 +128,75 @@ EOF
       expect(ServerSettings.role.hosts.first.host).to eq("4.4.4.4")
     end
   end
+
+  describe 'databases' do
+    let (:db_config)  { <<EOS }
+databases:
+  :adapter: mysql2
+  :encoding: utf8
+  :reconnect: true
+  :database: app
+  :pool: 10
+  :username: db_user1
+  :password: db_pass1
+  :master: 192.168.30.86
+  :backup: 192.168.30.85
+  db1:
+    :database: app_db1
+    :master: 192.168.30.86
+    :backup: 192.168.30.85
+  shards:
+    user_shard_1:
+      :database: app_user_shard1
+      :master: 192.168.30.86
+      :backup: 192.168.30.85
+    user_shard_2:
+      :database: app_user_shard2
+      :master: 192.168.30.86
+      :backup: 192.168.30.85
+  db2:
+    :database: app_db2
+    :master: 192.168.30.86
+    :backup: 192.168.30.85
+    :slaves: [  192.168.30.87, 192.168.30.88 ]
+  group1:
+    db3:
+      :master: 192.168.30.86
+      :backup: 192.168.30.85
+EOS
+    describe ServerSettings::Database do
+      context "db in group" do
+        it 'return db instance ' do
+          ServerSettings.load_from_yaml(db_config)
+        end
+      end
+    end
+
+    describe "find" do
+      it 'return db instance ' do
+        ServerSettings.load_from_yaml(db_config)
+        db1 = ServerSettings.databases.find("db1")
+        expect(db1.master).to eq("192.168.30.86")
+        expect(db1.backup).to eq("192.168.30.85")
+        expect(db1.settings[:database]).to eq("app_db1")
+        expect(db1.settings[:username]).to eq("db_user1")
+      end
+
+      it 'return nil if not found' do
+        ServerSettings.load_from_yaml(db_config)
+        db = ServerSettings.databases.find("not-found")
+        expect(db).to be_nil
+      end
+    end
+
+
+    describe "each" do
+      it 'loop 6 times yield with db argument' do
+        ServerSettings.load_from_yaml(db_config)
+        args = 6.times.map {ServerSettings::Database}
+        expect { |b| ServerSettings.databases.each(&b)}.to yield_control.exactly(6).times
+        expect { |b| ServerSettings.databases.each(&b)}.to yield_successive_args(*args)
+      end
+    end
+  end
 end
