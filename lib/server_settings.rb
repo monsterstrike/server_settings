@@ -5,6 +5,7 @@ require "server_settings/host"
 require "server_settings/host_collection"
 require "server_settings/role"
 require "server_settings/role_db"
+require "server_settings/database"
 
 class ServerSettings
   attr_accessor :roles
