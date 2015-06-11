@@ -8,9 +8,10 @@ class ServerSettings
 
     def config(role)
       host = send(role)
-      if host.kind_of?(Array)
+      case host
+      when Array
         host.map { |h| settings.merge(:host => h) }
-      elsif host.kind_of?(String)
+      when String
         settings.merge(:host => host)
       else
         nil
