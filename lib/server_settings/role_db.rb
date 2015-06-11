@@ -44,7 +44,7 @@ class ServerSettings
     end
 
     def hosts
-      map { |db| db.master }.flatten.uniq
+      map { |db| db }
     end
 
     def config_params(config)

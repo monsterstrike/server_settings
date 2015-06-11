@@ -18,6 +18,10 @@ class ServerSettings
       end
     end
 
+    def host
+      @master
+    end
+
     def has_slave?
       !! @slaves and not @slaves.empty?
     end
