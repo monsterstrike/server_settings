@@ -242,6 +242,13 @@ EOS
 
     end
 
+    describe "hosts" do
+      it 'can iterate each server' do
+        ServerSettings.load_from_yaml(db_config)
+        expect(ServerSettings.databases.hosts).to eq(["192.168.30.86"])
+      end
+    end
+
     describe "find" do
       it 'return db instance ' do
         ServerSettings.load_from_yaml(db_config)
