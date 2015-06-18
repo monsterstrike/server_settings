@@ -23,6 +23,10 @@ role2:
 EOF
   }
 
+  after do
+    ServerSettings.destroy
+  end
+
   describe "config_load" do
     before do
       filepath = "config.yml"
@@ -34,16 +38,11 @@ EOF
       ServerSettings.load_config("config.yml")
     end
 
-    it 'can override role by another config' do
-
-      ServerSettings.load_config("config.yml")
-      expect(ServerSettings.role2.hosts.with_format("%host")).to eq(["3.3.3.3"])
-      allow(IO).to receive(:read).with("config2.yml").and_return(config2)
-      allow(File).to receive(:mtime).with("config2.yml").and_return(Time.now)
-
-      # load again
-      ServerSettings.load_config("config2.yml")
-      expect(ServerSettings.role2.hosts.with_format("%host")).to eq(["4.4.4.4"])
+    it 'raise error when found duplicate role' do
+      ServerSettings.load_from_yaml("role1: { hosts: [ 1.1.1.1 ] }")
+      expect do
+        ServerSettings.load_from_yaml("role1: { hosts: [ 2.2.2.2 ] }")
+      end.to raise_error(ServerSettings::DuplicateRole)
     end
 
     it 'raise error not array hosts' do
@@ -52,9 +51,6 @@ EOF
       end.to raise_exception(ServerSettings::HostCollection::InvalidHosts)
     end
 
-    after do
-      ServerSettings.destroy
-    end
   end
 
   describe "load_config_dir" do
