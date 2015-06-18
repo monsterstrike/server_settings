@@ -243,9 +243,9 @@ EOS
     end
 
     describe "hosts" do
-      it 'can iterate each server' do
+      it 'return array of db instance' do
         ServerSettings.load_from_yaml(db_config)
-        expect(ServerSettings.databases.hosts).to eq(["192.168.30.86"])
+        expect(ServerSettings.databases.hosts).to include(instance_of(ServerSettings::Database))
       end
     end
 

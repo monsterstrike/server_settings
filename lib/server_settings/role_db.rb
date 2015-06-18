@@ -44,7 +44,7 @@ class ServerSettings
     end
 
     def hosts
-      map { |db| db }
+      find_all
     end
 
     def config_params(config)
