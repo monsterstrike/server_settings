@@ -1,5 +1,15 @@
 # Change Log
 
+## [v0.0.6](https://github.com/monsterstrike/server_settings/tree/v0.0.6) (2015-06-18)
+
+[Full Changelog](https://github.com/monsterstrike/server_settings/compare/v0.0.5...v0.0.6)
+
+**Merged pull requests:**
+
+- Add ServerSettings::Database and db iterator [\#16](https://github.com/monsterstrike/server_settings/pull/16) ([osamu](https://github.com/osamu))
+
+- Raise error duplicate role [\#12](https://github.com/monsterstrike/server_settings/pull/12) ([osamu](https://github.com/osamu))
+
 ## [v0.0.5](https://github.com/monsterstrike/server_settings/tree/v0.0.5) (2015-06-03)
 
 [Full Changelog](https://github.com/monsterstrike/server_settings/compare/v0.0.4...v0.0.5)
