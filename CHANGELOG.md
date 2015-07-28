@@ -1,5 +1,13 @@
 # Change Log
 
+## [v0.0.7](https://github.com/monsterstrike/server_settings/tree/v0.0.7) (2015-07-28)
+
+[Full Changelog](https://github.com/monsterstrike/server_settings/compare/v0.0.6...v0.0.7)
+
+**Merged pull requests:**
+
+- Support capistrano3 [\#18](https://github.com/monsterstrike/server_settings/pull/18) ([hirocaster](https://github.com/hirocaster))
+
 ## [v0.0.6](https://github.com/monsterstrike/server_settings/tree/v0.0.6) (2015-06-18)
 
 [Full Changelog](https://github.com/monsterstrike/server_settings/compare/v0.0.5...v0.0.6)
