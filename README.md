@@ -134,12 +134,26 @@ ServerSettings.databases.each do |db|
 end
 ```
 
-### For Capistrano
+### For Capistrano2
 ```ruby
 require  'server_settings/capistrano'
 
 load_servers("config/production/*.yaml")
 
+```
+
+### For Capistrano3
+
+in Capfile
+
+```ruby
+require "capistrano/server_settings"
+```
+
+in deploy.rb
+
+```ruby
+load_servers("config/production/*.yaml")
 ```
 
 ## For other application configuration
