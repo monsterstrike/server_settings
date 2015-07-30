@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'server_settings'
 
-describe "DatabaseConfig" do
+describe "ServerSettings::DatabaseConfig" do
   let (:config1) do
           yaml_text = <<-EOF
 ---
@@ -41,11 +41,11 @@ EOF
     ServerSettings.destroy
   end
   describe ".slave_name" do
-    it { expect(DatabaseConfig.slave_name("hoge", 1)).to eq "hoge_slave1" }
+    it { expect(ServerSettings::DatabaseConfig.slave_name("hoge", 1)).to eq "hoge_slave1" }
   end
   describe ".generate_database_config" do
     context "check configuration" do
-      let(:database_config) { database_config = DatabaseConfig.generate_database_config(:master) }
+      let(:database_config) { database_config = ServerSettings::DatabaseConfig.generate_database_config(:master) }
       it "contain `user` key" do
         expect(database_config["user"].class).to eq Hash
       end
@@ -61,12 +61,12 @@ EOF
       end
       context "when no slaves options" do
         it "does not exist slave key" do
-          no_slave_config = DatabaseConfig.generate_database_config(:master, with_slave: false)
+          no_slave_config = ServerSettings::DatabaseConfig.generate_database_config(:master, with_slave: false)
           expect(no_slave_config.has_key? "has_slave_slave1").to be false
         end
       end
       context "when use backup role" do
-        let(:backup_config) { DatabaseConfig.generate_database_config :backup }
+        let(:backup_config) { ServerSettings::DatabaseConfig.generate_database_config :backup }
         it "change host to backup" do
           expect(backup_config["has_backup"][:host]).to eq "backup.com"
         end
@@ -84,7 +84,7 @@ EOF
         allow(Rails).to receive(:env).and_return("test")
       end
       it "contain environment key" do
-        database_config = DatabaseConfig.generate_database_config(:master)
+        database_config = ServerSettings::DatabaseConfig.generate_database_config(:master)
         expect(database_config["test"]).not_to eq nil
       end
     end
