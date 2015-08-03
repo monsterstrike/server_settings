@@ -1,5 +1,5 @@
 class ServerSettings
-  module DatabaseConfig
+  class DatabaseConfig
     def self.slave_name(name, idx)
       name + "_slave#{idx}"
     end
