@@ -87,6 +87,11 @@ EOF
         database_config = ServerSettings::DatabaseConfig.generate_database_config(:master)
         expect(database_config["test"]).not_to eq nil
       end
+      it "returns configs with string keys" do
+        database_config = ServerSettings::DatabaseConfig.generate_database_config(:master)
+        expect(database_config["user"].keys.all? { |k| k.is_a? String }).to be true
+        expect(database_config["has_slave_slave1"].keys.all? { |k| k.is_a? String }).to be true
+      end
     end
   end
 end
