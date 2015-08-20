@@ -11,20 +11,20 @@ class ServerSettings
       ServerSettings.databases.each do |db|
         next unless db.config(db_role)
 
-        db_config = db.config(db_role)
-        stringify_keys!(db_config) if defined? Rails
+        role_db_config = db.config(db_role)
+        stringify_keys!(role_db_config) if defined? Rails
 
         if db.name == "default"
           if defined? Rails
-            configuration[Rails.env] = db_config
+            configuration[Rails.env] = role_db_config
           else
-            configuration.merge!(db_config)
+            configuration.merge!(role_db_config)
           end
         elsif db.group
           configuration[db.group] ||= {}
-          configuration[db.group][db.name] = db_config
+          configuration[db.group][db.name] = role_db_config
         else
-          configuration[db.name] = db_config
+          configuration[db.name] = role_db_config
         end
 
         if with_slave && db.has_slave?
