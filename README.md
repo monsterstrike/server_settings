@@ -134,6 +134,14 @@ ServerSettings.databases.each do |db|
 end
 ```
 
+### For Rails
+
+Railsを利用している場合は、下記のパターンでyaml群を配置してください
+
+ServerSettingsが自動的にyamlを読み込みます
+
+`#{Rails.root}/config/servers/#{Rails.env}/*.yml`
+
 ### For Capistrano2
 ```ruby
 require  'server_settings/capistrano'
