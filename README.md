@@ -134,6 +134,28 @@ ServerSettings.databases.each do |db|
 end
 ```
 
+#### Tasks
+
+When you writes as follows, define task for create databases.
+
+```ruby
+require 'server_settings/tasks'
+```
+
+Define task list
+
+```ruby
+rake db:create_all:execute                                      # Confirm and execute CREATE DATABASE for each new database
+rake db:create_all:status                                       # Show status of new databases not created yet
+# for development and test
+rake db:create:development                                      # Create databases for development environment
+rake db:create:test                                             # Create databases for test environment
+rake db:drop:development                                        # Drop databases for development environment
+rake db:drop:test                                               # Drop databases for test environment
+rake db:drop_and_create:development                             # Drop and create databases for development environment
+rake db:drop_and_create:test                                    # Drop and create databases for test environment
+```
+
 ### For Capistrano2
 ```ruby
 require  'server_settings/capistrano'
