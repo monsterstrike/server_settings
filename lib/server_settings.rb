@@ -7,6 +7,7 @@ require "server_settings/role"
 require "server_settings/role_db"
 require "server_settings/database"
 require "server_settings/database_config"
+require "server_settings/railtie" if defined? Rails
 
 class ServerSettings
   attr_accessor :roles
