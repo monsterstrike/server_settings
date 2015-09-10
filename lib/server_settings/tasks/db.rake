@@ -69,6 +69,32 @@ namespace :server_settings do
       end
     end
 
+    desc "Confirm and execute Drop DATABASE for all database"
+    task :drop => :environment do
+      all_db_configs = build_all_db_configs
+      next if all_db_configs.blank?
+      perform_drop_databases(all_db_configs)
+    end
+
+    def build_all_db_configs
+      ServerSettings::DatabaseConfig.generate_database_config(:master).each_with_object([]) do |(_, config), all_db_configs|
+        client = Mysql2::Client.new(username: config["username"], password: config["password"], host: config["host"])
+        all_db_configs << [config, client]
+      end
+    end
+
+    def perform_drop_databases(all_db_configs)
+      confirm_and_execute "Are you sure you want to execute above?" do
+        all_db_configs.each do |config, client|
+          command = "DROP DATABASE IF EXISTS #{ config['database'] }"
+          puts "Executing '#{ command }' on #{ config['host'] }"
+          client.query(command)
+        end
+      end
+    ensure
+      close_connections(all_db_configs)
+    end
+
     %w(development test).each do |env|
       namespace :create do
         desc "Create databases for #{ env } environment"
