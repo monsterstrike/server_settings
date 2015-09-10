@@ -136,9 +136,9 @@ end
 
 ### For Rails
 
-Railsを利用している場合は、下記のパターンでyaml群を配置してください
+When use Rails, place yaml file in the following pattern.
 
-ServerSettingsが自動的にyamlを読み込みます
+ServerSettings autoload this yaml file and define roles.
 
 `#{Rails.root}/config/servers/#{Rails.env}/*.yml`
 
