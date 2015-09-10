@@ -110,4 +110,3 @@ class ServerSettings
     end
   end
 end
-
