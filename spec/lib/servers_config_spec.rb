@@ -28,35 +28,60 @@ EOF
   end
 
   describe "config_load" do
-    before do
-      filepath = "config.yml"
-      allow(IO).to receive(:read).with(filepath).and_return(config1)
-      allow(File).to receive(:mtime).with(filepath).and_return(Time.now)
+    context "when config file exists" do
+      before do
+        filepath = "config.yml"
+        allow(IO).to receive(:read).with(filepath).and_return(config1)
+        allow(File).to receive(:mtime).with(filepath).and_return(Time.now)
+      end
+      it 'can load yaml file' do
+        ServerSettings.load_config("config.yml")
+      end
+
+      it 'raise error when found duplicate role' do
+        ServerSettings.load_from_yaml("role1: { hosts: [ 1.1.1.1 ] }")
+        expect do
+          ServerSettings.load_from_yaml("role1: { hosts: [ 2.2.2.2 ] }")
+        end.to raise_error(ServerSettings::DuplicateRole)
+      end
+
+      it 'raise error not array hosts' do
+        expect do
+          ServerSettings.load_from_yaml("role: { hosts: 1.1.1.1 }")
+        end.to raise_exception(ServerSettings::HostCollection::InvalidHosts)
+      end
     end
 
-    it 'can load yaml file' do
-      ServerSettings.load_config("config.yml")
+    context "when config file does not exist" do
+      it 'raise error' do
+        expect { ServerSettings.load_config "does_not_exist.yml" }.to raise_error
+      end
     end
-
-    it 'raise error when found duplicate role' do
-      ServerSettings.load_from_yaml("role1: { hosts: [ 1.1.1.1 ] }")
-      expect do
-        ServerSettings.load_from_yaml("role1: { hosts: [ 2.2.2.2 ] }")
-      end.to raise_error(ServerSettings::DuplicateRole)
-    end
-
-    it 'raise error not array hosts' do
-      expect do
-        ServerSettings.load_from_yaml("role: { hosts: 1.1.1.1 }")
-      end.to raise_exception(ServerSettings::HostCollection::InvalidHosts)
-    end
-
   end
 
   describe "load_config_dir" do
     it 'can load yaml files from directory pattern' do
       ServerSettings.load_config_dir("spec/test-yaml/*.yml")
       expect( ServerSettings.roles.keys.sort ).to eq(["role1", "role2"])
+    end
+
+    context "when any yaml does not exist" do
+      it "not raise error, but not define any role" do
+        ServerSettings.load_config_dir("spec/does_not_exist/*.yml")
+        expect(ServerSettings.roles.keys.sort).to eq []
+      end
+    end
+
+    context "when argument is directory" do
+      it "raise error" do
+        expect { ServerSettings.load_config_dir("spec/test-yaml") }.to raise_error
+      end
+      context "when does not exist directory " do
+        it "not raise error, but not define any role" do
+          ServerSettings.load_config_dir("spec/does_not_exist")
+          expect(ServerSettings.roles.keys.sort).to eq []
+        end
+      end
     end
   end
 

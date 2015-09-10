@@ -134,6 +134,14 @@ ServerSettings.databases.each do |db|
 end
 ```
 
+### For Rails
+
+When use Rails, place yaml file in the following pattern.
+
+ServerSettings autoload this yaml file and define roles.
+
+`#{Rails.root}/config/servers/#{Rails.env}/*.yml`
+
 ### For Capistrano2
 ```ruby
 require  'server_settings/capistrano'
