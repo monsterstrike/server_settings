@@ -3,9 +3,8 @@ namespace :db do
     require "colorize"
 
     def build_new_db_configs
-      configs = ActiveRecord::Base.configurations
-      configs.each_with_object([]) do |(_, config), new_db_configs|
-        client = Mysql2::Client.new(config.slice("username", "password", "host"))
+      ServerSettings::DatabaseConfig.generate_database_config(:master).each_with_object([]) do |(_, config), new_db_configs|
+        client = Mysql2::Client.new(config["username"], config["password"], config["host"])
         if client.query("SHOW DATABASES LIKE '#{ config['database'] }'").to_a.blank?
           new_db_configs << [config, client]
         else
@@ -106,8 +105,7 @@ namespace :db do
   end
 
   def db_names
-    configs = ActiveRecord::Base.configurations
-    configs.values.map { |config| config["database"] }.compact.uniq
+    ServerSettings::DatabaseConfig.generate_database_config(:master).map{ |connection_name, value| value["database"] }
   end
 
   def create_databases_if_not_exist(db_names)
