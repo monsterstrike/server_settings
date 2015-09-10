@@ -94,57 +94,5 @@ namespace :server_settings do
     ensure
       close_connections(all_db_configs)
     end
-
-    %w(development test).each do |env|
-      namespace :create do
-        desc "Create databases for #{ env } environment"
-        task env.to_sym => :environment do
-          unless get_arg_env == env
-            puts "ERROR: Please specify 'RAILS_ENV=#{ env }'"
-            fail
-          end
-          create_databases_if_not_exist(db_names)
-        end
-      end
-
-      namespace :drop do
-        desc "Drop databases for #{ env } environment"
-        task env.to_sym => :environment do
-          unless get_arg_env == env
-            puts "ERROR: Please specify 'RAILS_ENV=#{ env }'"
-            fail
-          end
-          drop_databases_if_exist(db_names)
-        end
-      end
-
-      namespace :drop_and_create do
-        desc "Drop and create databases for #{ env } environment"
-        task env.to_sym => :environment do
-          Rake::Task["db:drop:#{ env }"].invoke
-          Rake::Task["db:create:#{ env }"].invoke
-        end
-      end
-    end
-
-    def get_arg_env
-      (defined?(Rails) ? Rails.env : ENV["RACK_ENV"]) || "development"
-    end
-
-    def db_names
-      ServerSettings::DatabaseConfig.generate_database_config(:master).map{ |connection_name, value| value["database"] }
-    end
-
-    def create_databases_if_not_exist(db_names)
-      db_names.each do |db_name|
-        sh "mysql -u root -e 'CREATE DATABASE IF NOT EXISTS #{ db_name };'"
-      end
-    end
-
-    def drop_databases_if_exist(db_names)
-      db_names.each do |db_name|
-        sh "mysql -u root -e 'DROP DATABASE IF EXISTS #{ db_name };'"
-      end
-    end
   end
 end
