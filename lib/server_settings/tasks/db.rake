@@ -1,11 +1,11 @@
 namespace :server_settings do
   namespace :db do
-    namespace :create_all do
+    namespace :create do
       require "colorize"
 
       def build_new_db_configs
         ServerSettings::DatabaseConfig.generate_database_config(:master).each_with_object([]) do |(_, config), new_db_configs|
-          client = Mysql2::Client.new(config["username"], config["password"], config["host"])
+          client = Mysql2::Client.new(username: config["username"], password: config["password"], host: config["host"])
           if client.query("SHOW DATABASES LIKE '#{ config['database'] }'").to_a.blank?
             new_db_configs << [config, client]
           else
