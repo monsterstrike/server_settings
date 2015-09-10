@@ -64,8 +64,22 @@ EOF
       ServerSettings.load_config_dir("spec/test-yaml/*.yml")
       expect( ServerSettings.roles.keys.sort ).to eq(["role1", "role2"])
     end
-    it 'raise error, when does not directory' do
-      expect { ServerSettings.load_config_dir("spec/test-yaml") }.to raise_error
+    context "when any yaml does not exist" do
+      it "not raise error, but not define any role" do
+        ServerSettings.load_config_dir("spec/does_not_exist/*.yml")
+        expect(ServerSettings.roles.keys.sort).to eq []
+      end
+    end
+    context "when argument is directory" do
+      it "raise error" do
+        expect { ServerSettings.load_config_dir("spec/test-yaml") }.to raise_error
+      end
+      context "when does not exist directory " do
+        it "not raise error, but not define any role" do
+          ServerSettings.load_config_dir("spec/does_not_exist")
+          expect(ServerSettings.roles.keys.sort).to eq []
+        end
+      end
     end
   end
 
