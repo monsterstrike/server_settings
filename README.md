@@ -134,7 +134,7 @@ ServerSettings.databases.each do |db|
 end
 ```
 
-#### Tasks for database
+#### Tasks for mysql
 
 If you use Rails, ServerSettings define following tasks.
 
