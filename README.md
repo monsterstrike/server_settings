@@ -134,6 +134,22 @@ ServerSettings.databases.each do |db|
 end
 ```
 
+#### Tasks for mysql
+
+If you use Rails, ServerSettings define following tasks.
+
+```ruby
+rake server_settings:db:create:execute  # Confirm and execute CREATE DATABASE for each new database
+rake server_settings:db:create:status   # Show status of new databases not created yet
+rake server_settings:db:drop            # Confirm and execute Drop DATABASE for all database
+```
+
+If not use Rails, you writes in `Rakefile` as follows, define tasks.
+
+```ruby
+require 'server_settings/tasks'
+```
+
 ### For Rails
 
 When use Rails, place yaml file in the following pattern.
