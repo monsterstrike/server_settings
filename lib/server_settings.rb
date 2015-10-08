@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'yaml'
+require 'erb'
 require "server_settings/version"
 require "server_settings/host"
 require "server_settings/host_collection"
