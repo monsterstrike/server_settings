@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["osamu.matsumoto@gmail.com"]
   spec.summary       = %q{Server Configuration logic}
   spec.description   = %q{Server Configuration logic for any where}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/monsterstrike/server_settings"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
