@@ -6,7 +6,7 @@ require 'server_settings/version'
 Gem::Specification.new do |spec|
   spec.name          = "server_settings"
   spec.version       = ServerSettings::VERSION
-  spec.authors       = ["Osamu MATSUMOTO"]
+  spec.authors       = ["Osamu MATSUMOTO", "Contributers"]
   spec.email         = ["osamu.matsumoto@gmail.com"]
   spec.summary       = %q{Server Configuration logic}
   spec.description   = %q{Server Configuration logic for any where}
