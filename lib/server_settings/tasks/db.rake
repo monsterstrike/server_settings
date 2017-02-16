@@ -16,7 +16,7 @@ namespace :server_settings do
 
       def show_all_databases(all_db_configs)
         if all_db_configs.blank?
-          puts "There is no databases."
+          puts "There are no databases."
         else
           all_db_configs.each do |config, _|
             puts format("* %-15s: exists database '%s'", config["host"], config["database"]).colorize(:green)
@@ -26,7 +26,7 @@ namespace :server_settings do
 
       def show_new_databases(new_db_configs)
         if new_db_configs.blank?
-          puts "There is no new databases."
+          puts "There are no new databases."
         else
           new_db_configs.each do |config, _|
             puts format("* %-15s: new database '%s'", config["host"], config["database"]).colorize(:green)
