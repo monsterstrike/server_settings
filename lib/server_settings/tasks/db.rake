@@ -14,6 +14,16 @@ namespace :server_settings do
         end
       end
 
+      def show_all_databases(all_db_configs)
+        if all_db_configs.blank?
+          puts "There is no databases."
+        else
+          all_db_configs.each do |config, _|
+            puts format("* %-15s: exists database '%s'", config["host"], config["database"]).colorize(:green)
+          end
+        end
+      end
+
       def show_new_databases(new_db_configs)
         if new_db_configs.blank?
           puts "There is no new databases."
@@ -84,6 +94,7 @@ namespace :server_settings do
     end
 
     def perform_drop_databases(all_db_configs)
+      show_all_databases(all_db_configs)
       confirm_and_execute "Are you sure you want to execute above?" do
         all_db_configs.each do |config, client|
           command = "DROP DATABASE IF EXISTS #{ config['database'] }"
