@@ -1,6 +1,7 @@
 class ServerSettings
 
   class HostCollection < Array
+    attr_reader :role_config
     def initialize(hosts, role_config)
       @role_config = role_config
       unless hosts.kind_of?(Array)
