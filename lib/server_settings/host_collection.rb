@@ -1,9 +1,9 @@
 class ServerSettings
 
   class HostCollection < Array
-    attr_reader :role_config
-    def initialize(hosts, role_config)
-      @role_config = role_config
+    attr_reader :properties
+    def initialize(hosts, properties)
+      @properties = properties
       unless hosts.kind_of?(Array)
         raise InvalidHosts, "hosts: #{hosts} is not array"
       end
@@ -15,7 +15,7 @@ class ServerSettings
 
     def with_format(format)
       self.map do |host|
-        replacemap = @role_config
+        replacemap = @properties
         replacemap['%host'] = host.host
         replacemap['%port'] = host.port if host.port
         replacemap.inject(format) do |string, mapping|
