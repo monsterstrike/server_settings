@@ -164,7 +164,13 @@ require  'server_settings/capistrano'
 
 load_servers("config/production/*.yaml")
 
-```
+
+When want to use `no_release`, `primary`, `active` role option, described as follow.
+
+memcached:
+  no_release: true
+  hosts:
+    - 192.168.100.1
 
 ### For Capistrano3
 
