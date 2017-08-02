@@ -30,6 +30,16 @@ database:
   user:
     :database: dbname-user
     :host: 192.168.100.3
+
+memcached:
+  port: 11211
+  hosts:
+    -
+      name: test-1
+      host: 127.0.0.1
+    -
+      name: test-2
+      host: 192.168.0.2
 EOF
 
 # Load Configuration
@@ -51,3 +61,5 @@ end
 
 # Database Configuration
 p ServerSettings.database.hosts
+
+p ServerSettings.memcached.hosts

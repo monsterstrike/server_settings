@@ -14,14 +14,19 @@ class ServerSettings
     end
 
     def with_format(format)
-      self.map do |host|
-        replacemap = @properties
-        replacemap['%host'] = host.host
-        replacemap['%port'] = host.port if host.port
+      self.map do |h|
+        host = @properties.merge(h.to_h)
+        replacemap = @properties.inject({}) { |a, (k, v)| a["%#{k}"] = v.to_s; a }
+        replacemap['%host'] = host["host"]
+        replacemap['%port'] = host["port"].to_s if host["port"]
         replacemap.inject(format) do |string, mapping|
           string.gsub(*mapping)
         end
       end
+    end
+
+    def with_hash
+      map { |host| @properties.merge(host.to_h) }
     end
 
     # Errors

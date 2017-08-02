@@ -297,4 +297,85 @@ EOS
       end
     end
   end
+
+  describe "structured hosts" do
+    describe "ServerSettings::HostCollection#with_hash" do
+      context "with default port" do
+        let(:structured_hosts_config) { <<EOS }
+memcached:
+  port: 11211
+  hosts:
+    -
+      name: test-1
+      host: 127.0.0.1
+    -
+      name: test-2
+      host: 192.168.0.2
+EOS
+
+        before do
+          ServerSettings.load_from_yaml(structured_hosts_config)
+        end
+
+        it "returns array with hash" do
+          expect(ServerSettings.memcached.hosts.with_hash).to include(
+            {"name" => "test-1", "host" => "127.0.0.1", "port" => 11211},
+            {"name" => "test-2", "host" => "192.168.0.2", "port" => 11211}
+          )
+        end
+      end
+
+      context "with default host and port" do
+        let(:structured_hosts_config) { <<EOS }
+memcached:
+  port: 11211
+  host: 127.0.0.1
+  hosts:
+    -
+      name: test-1
+    -
+      name: test-2
+      host: 192.168.0.2
+EOS
+
+        before do
+          ServerSettings.load_from_yaml(structured_hosts_config)
+        end
+
+        it "returns array with hash" do
+          expect(ServerSettings.memcached.hosts.with_hash).to include(
+            {"name" => "test-1", "host" => "127.0.0.1", "port" => 11211},
+            {"name" => "test-2", "host" => "192.168.0.2", "port" => 11211}
+          )
+        end
+      end
+    end
+
+    describe "ServerSettings::HostCollection#with_format" do
+      context "with default host and port" do
+        let(:structured_hosts_config) { <<EOS }
+memcached:
+  port: 11211
+  host: 127.0.0.1
+  hosts:
+    -
+      name: test-1
+    -
+      name: test-2
+      host: 192.168.0.2
+EOS
+
+        before do
+          ServerSettings.load_from_yaml(structured_hosts_config)
+        end
+
+        it "returns Array with string" do
+          expect(ServerSettings.memcached.hosts.with_format("%host:%port")).to include(
+            "127.0.0.1:11211",
+            "192.168.0.2:11211"
+          )
+        end
+      end
+    end
+  end
 end
