@@ -15,7 +15,7 @@ module Capistrano
                 role_properties[:active]     = true if hosts.properties["%active"]
                 role role.to_sym, *hosts.map(&:host), role_properties
               else
-                role role.to_sym, *hosts.map(&:host)
+                role role.to_sym, *hosts.map(&:host).shuffle
               end
             end
           end
