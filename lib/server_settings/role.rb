@@ -9,12 +9,10 @@ class ServerSettings
     end
 
     def load(config)
-      role_options = config.keys.select{|s| s != "hosts"}
-      @settings = Hash[*role_options.map do |option_name|
-                         [ "%#{option_name}", config[option_name].to_s]
-                       end.flatten]
-      if config.has_key?("hosts")
-        config["hosts"]= HostCollection.new(config["hosts"], @settings)
+      if config.key?("hosts")
+        hosts = config.delete("hosts")
+        prop = config.dup
+        config["hosts"]= HostCollection.new(hosts, prop)
       end
       config
     end
