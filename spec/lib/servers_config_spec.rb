@@ -184,6 +184,14 @@ databases:
     db3:
       :master: 192.168.30.86
       :backup: 192.168.30.85
+    db4:
+      :database: db4
+      :master: 192.168.30.86
+      :backup: 192.168.30.85
+  db4:
+    :database: another_db4
+    :master: 192.168.30.86
+    :backup: 192.168.30.85
 EOS
 
     describe ServerSettings::Database do
@@ -191,7 +199,8 @@ EOS
       context "db in group" do
         it 'describe database with group' do
           ServerSettings.load_from_yaml(db_config)
-          db = ServerSettings.databases.find("user_shard_1")
+          db = ServerSettings.databases.find("user_shard_1", "shards")
+
           expect(db.group).to eq("shards")
           expect(db.config(:master)).to eq({
                                              :adapter => "mysql2",
@@ -213,6 +222,11 @@ EOS
                                              :username => "db_user1"})
           expect(db.has_slave?).to be_falsey
 
+        end
+        context "when yaml has another same db setting" do
+          it "" do
+            ServerSettings.load_from_yaml(db_config)
+          end
         end
       end
 
@@ -289,10 +303,10 @@ EOS
 
 
     describe "each" do
-      it 'loop 6 times yield with db argument' do
+      it 'loop 8 times yield with db argument' do
         ServerSettings.load_from_yaml(db_config)
-        args = 6.times.map {ServerSettings::Database}
-        expect { |b| ServerSettings.databases.each(&b)}.to yield_control.exactly(6).times
+        args = 8.times.map {ServerSettings::Database}
+        expect { |b| ServerSettings.databases.each(&b)}.to yield_control.exactly(8).times
         expect { |b| ServerSettings.databases.each(&b)}.to yield_successive_args(*args)
       end
     end

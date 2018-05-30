@@ -16,8 +16,8 @@ class ServerSettings
       return db
     end
 
-    def find(db_name)
-      select { |s| s.name == db_name }.first
+    def find(db_name, db_group = nil)
+      select { |s| s.name == db_name && s.group == db_group }.first
     end
 
     def each
